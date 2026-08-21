@@ -38,7 +38,12 @@ SynapticChain is **NOT** a sequential BFT chain masquerading as a DAG, nor is it
 - **Rayon Multi-Threaded Execution:** Transactions on separate lanes execute in parallel without lock contention, eliminating the global mempool stalling bug common to sequential blockchains.
 - **Verified Sustained Throughput:** 5,291+ real on-chain TPS with lossless RPC ingestion.
 
-### 3. 🛡️ Sovereign Rust Native Runtime
+### 3. 🔬 JIT Operation Fusion & Compile-Time Tick-Based Scheduling
+- **Compile-Time Tick Scheduling (`synaptic-compiler`):** Analyzes contract read/write sets (`#[reads(...)]`, `#[writes(...)]`) and divides execution into discrete, conflict-free **Ticks** with mathematically proven non-overlapping storage access.
+- **Phase 1 JIT Engine (`synaptic-vm/src/jit.rs`):** Compiles `FunctionPlan` → `JitFunctionPlan` at contract load time, fusing adjacent micro-ops (`LoadConst+Compute`, `LoadArg+Compute`, `LoadConst+Write`) and inline-caching binary state keys to eliminate runtime allocations and stack hops.
+- **Pre-Computed Gas & Tick Tables:** Pre-calculates cycle-accurate per-tick gas budgets (`tick_gas`) and nested tick groups (`tick_groups`), eliminating runtime dynamic metering overhead.
+
+### 4. 🛡️ Sovereign Rust Native Runtime
 - Zero EVM or Geth dependencies; custom stack VM with static execution plans (`.plan` bytecode compiled from `.syn` smart contracts).
 - Native HTTP 402 Machine-to-Machine micro-settlement gateway.
 - Native ISO 20022 corridor payment support (sUSD, cTZS, cKES, cNGN, cZAR).

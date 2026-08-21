@@ -44,12 +44,17 @@ SynapticChain is modularized into 12 tightly integrated Rust crates within a uni
 ### 3. `synaptic-compiler` — Ahead-of-Time Static Scheduler (`synlang`)
 - Full compiler pipeline translating `.syn` smart contracts into deterministic `.plan` binaries.
 - **Lexer & Parser:** Recursive-descent AST construction with strict type checking.
-- **Static Dependency Analysis:** Computes conflict-free memory access graphs at compile time.
-- **Gas Estimator:** Calculates cycle-accurate instruction costs avoiding runtime dynamic metering overhead.
+- **Compile-Time Tick Scheduling:** Analyzes memory access sets (`#[reads(...)]`, `#[writes(...)]`) and divides contract operations into discrete execution **Ticks** (`tick_idx`).
+- **Parallelism Safety Proofs:** Mathematically proves at compile time that no two operations in the same tick write to the same storage slot.
+- **Pre-Computed Gas & Tick Tables:** Pre-calculates cycle-accurate per-tick gas budgets (`tick_gas: Vec<u64>`) and nested tick groups (`tick_groups: Vec<Vec<Vec<usize>>>`), eliminating dynamic runtime gas metering loops.
 
-### 4. `synaptic-vm` — Parallel Rayon Execution Engine
+### 4. `synaptic-vm` — Parallel Rayon Execution & Phase 1 JIT Engine (`jit.rs`)
 - Stack-based virtual machine executing pre-compiled `.plan` instruction streams.
-- **Parallel Dispatch:** Non-overlapping contract calls execute simultaneously across multi-core worker pools.
+- **Phase 1 JIT Compilation:** Compiles `FunctionPlan` → `JitFunctionPlan` at contract load time.
+- **Operation Fusion:** Fuses adjacent operations (e.g., `LoadConst + Compute`, `LoadArg + Compute`, `LoadConst + Write`) into single micro-instructions, bypassing intermediate register spills and stack hops.
+- **Inline State Key Caching:** Pre-encodes state storage keys as raw `Vec<u8>` bytes at compile/load time, eliminating `to_vec()` allocations during hot execution loops.
+- **$O(1)$ Tick Dispatch:** Slices operations by tick (`tick_ops` and `parallel_tick_ops`), turning dynamic runtime dispatch into an $O(1)$ array slice lookup.
+- **Rayon Parallel Worker Pools:** Executes all disjoint parallel groups within a tick simultaneously across multi-core CPU pools.
 - **Compile-Time Hot-Path Guards (`s0_enforcement`):** Prevents the introduction of `std::sync::Mutex` or blocking locks on the execution hot path.
 
 ### 5. `synaptic-state` — Dual-Ledger Lock-Free State Store
