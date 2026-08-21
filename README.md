@@ -290,7 +290,9 @@ Navigate to [http://localhost:3000](http://localhost:3000) to access the Consume
 │   ├── DAG_ARCHITECTURE.md            # DAG-Primary Multi-Proposer Consensus
 │   ├── X402_SPECIFICATION.md          # Machine-to-Machine HTTP 402 Standard
 │   ├── API_REFERENCE.md               # RPC & REST Endpoints
+│   ├── MARKETPLACE.md                 # x402 Marketplace & M2M Commerce Specification
 │   └── QUICKSTART.md
+├── marketplace.md                     # Canonical Marketplace Standard & Verified API Matrix
 ├── SKILL.md                           # Master OpenClaw Agent Specification (v2.8.0)
 └── package.json                       # Workspace scripts
 ```
