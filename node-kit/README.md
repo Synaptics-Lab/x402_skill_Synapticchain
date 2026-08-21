@@ -149,7 +149,7 @@ sudo journalctl -u synaptic-observer -f
 * **P2P GossipSub Port:** `9000` (TCP/UDP) — open in firewall.
 * **JSON-RPC Port:** `8545` (HTTP / JSON-RPC 2.0).
 * **WebSocket Firehose:** `8546` (WS real-time block streaming).
-* **Bootstrap Peer (Alpha Hub):** `/ip4/100.81.111.43/tcp/9000/p2p/12D3KooWAlphaSeedNode`
+* **Bootstrap Peer (Alpha Hub):** `/dns4/nodes.synapticchain.xyz/tcp/9000/p2p/12D3KooWAlphaSeedNode`
 * **Public Gateway:** `https://nodes.synapticchain.xyz/rpc`
 * **Network Chain ID:** `1` (Mainnet / Staging)
 

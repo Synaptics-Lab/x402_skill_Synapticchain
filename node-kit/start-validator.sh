@@ -12,7 +12,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BIN="${SCRIPT_DIR}/synaptic-node"
 DATA_DIR="${SCRIPT_DIR}/data/validator"
 KEY_FILE="${SCRIPT_DIR}/validator.key"
-BOOTSTRAP_PEER="${SYNAPTIC_BOOTSTRAP:-/ip4/100.81.111.43/tcp/9000/p2p/12D3KooWAlphaSeedNode}"
+BOOTSTRAP_PEER="${SYNAPTIC_BOOTSTRAP:-/dns4/nodes.synapticchain.xyz/tcp/9000/p2p/12D3KooWAlphaSeedNode}"
 
 mkdir -p "${DATA_DIR}"
 

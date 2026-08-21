@@ -11,7 +11,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BIN="${SCRIPT_DIR}/synaptic-node"
 DATA_DIR="${SCRIPT_DIR}/data/observer"
-BOOTSTRAP_PEER="${SYNAPTIC_BOOTSTRAP:-/ip4/100.81.111.43/tcp/9000/p2p/12D3KooWAlphaSeedNode}"
+BOOTSTRAP_PEER="${SYNAPTIC_BOOTSTRAP:-/dns4/nodes.synapticchain.xyz/tcp/9000/p2p/12D3KooWAlphaSeedNode}"
 
 mkdir -p "${DATA_DIR}"
 
@@ -27,7 +27,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "• Data Directory:    ${DATA_DIR}"
 echo "• RPC Port:          8545"
 echo "• P2P Port:          9000"
-echo "• Core Hub (Alpha):  100.81.111.43:9000"
+echo "• Core Hub (Alpha):  nodes.synapticchain.xyz:9000"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 export RUST_LOG=info,synaptic_consensus=info,synaptic_p2p=warn
