@@ -291,6 +291,7 @@ Navigate to [http://localhost:3000](http://localhost:3000) to access the Consume
 │   ├── X402_SPECIFICATION.md          # Machine-to-Machine HTTP 402 Standard
 │   ├── API_REFERENCE.md               # RPC & REST Endpoints
 │   ├── MARKETPLACE.md                 # x402 Marketplace & M2M Commerce Specification
+│   ├── OWASP_TOP10.md                 # OWASP Top 10 Security Architecture & Audit Report
 │   └── QUICKSTART.md
 ├── marketplace.md                     # Canonical Marketplace Standard & Verified API Matrix
 ├── SKILL.md                           # Master OpenClaw Agent Specification (v2.8.0)
