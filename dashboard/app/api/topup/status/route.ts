@@ -10,7 +10,7 @@ import path from 'node:path'
 
 export const dynamic = 'force-dynamic'
 
-const TOPUP_STORE = path.resolve('/opt/synapticchain/x402-marketplace/.topup-payments.json')
+const TOPUP_STORE = path.resolve(process.env.TOPUP_STORE_PATH || './.topup-payments.json')
 
 function loadStore(): Record<string, any> {
   try {

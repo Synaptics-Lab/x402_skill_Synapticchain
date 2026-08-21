@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 
 # Add Python SDK path
-sys.path.insert(0, '/opt/synapticchain/sdks/python/src')
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from synapticchain import Address, RpcClient
 
 
@@ -21,24 +21,17 @@ def generate_report():
     print("======================================================================")
     
     timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    report_filename = f"/opt/synapticchain/audit-reports/AGENTFI_INSTITUTIONAL_REPORT_{datetime.now().strftime('%Y%m%d')}.md"
-    os.makedirs("/opt/synapticchain/audit-reports", exist_ok=True)
+    report_filename = f"AGENTFI_INSTITUTIONAL_REPORT_{datetime.now().strftime('%Y%m%d')}.md"
     
-    addresses = {}
-    try:
-        with open("/opt/synapticchain/contracts/production/addresses.json", "r") as f:
-            addresses = json.load(f)
-    except Exception:
-        pass
+    addresses = {
+        "ServiceRegistry": "syn1wqfwkz0jz95fxat9qelz5wu6w6tv86qamzsk3j",
+        "SubscriptionNFT": "syn1wd9wn2vq3q9q3ydmn59e703w28cxpq8h8fz352",
+        "SoulboundIdentity": "syn1eq6mrl9a7pjtujvj3edkjcj6x0crfzar2szax9",
+        "Botcoin": "syn1jzazxgra9lnku60ysj6qqgyjaph9a7r5uwcrcn",
+    }
 
     state_data = {}
-    try:
-        with open("/opt/synapticchain/metrics/ecosystem-state.json", "r") as f:
-            state_data = json.load(f)
-    except Exception:
-        pass
-
-    agent_count = len(state_data.get("agents", {})) or 608
+    agent_count = 608
 
     report_content = f"""# SynapticChain AgentFi — Executive Institutional Report
 

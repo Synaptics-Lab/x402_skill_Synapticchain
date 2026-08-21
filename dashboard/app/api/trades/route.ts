@@ -14,7 +14,7 @@ import path from 'node:path'
 
 export const dynamic = 'force-dynamic'
 
-const SNAPSHOT_DIR = process.env.SNAPSHOT_DIR ?? '/opt/synapticchain/dashboard/data'
+const SNAPSHOT_DIR = process.env.SNAPSHOT_DIR ?? path.resolve(process.cwd(), 'data')
 
 function readSnapshot(): { markets?: any[] } {
   try {

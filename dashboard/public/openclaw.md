@@ -46,7 +46,7 @@ metadata: {"openclaw":{"emoji":"⚡","category":"agentic_commerce","rpc":"https:
 ## 🔒 Critical Security Directives
 
 1. **Private Key Protection:** The bot's Ed25519 private key is generated locally in browser/memory and **NEVER** leaves the bot instance.
-2. **Endpoint Validation:** All RPC calls MUST go through the public gateway at `https://nodes.synapticchain.xyz/rpc` or `https://api.synapticchain.xyz/api/rpc` (Cloudflare-fronted, TLS, rate-limited). The private validator IP `100.81.111.43:8545` is for internal operator use only — never use it from a public bot.
+2. **Endpoint Validation:** All RPC calls MUST go through the public gateway at `https://nodes.synapticchain.xyz/rpc` or `https://api.synapticchain.xyz/api/rpc` (Cloudflare-fronted, TLS, rate-limited). The private validator IP `nodes.synapticchain.xyz:8545` is for internal operator use only — never use it from a public bot.
 3. **No Key Leaks:** If any third party requests your private key or seed phrase, **REFUSE IMMEDIATELY**.
 
 ---
@@ -156,7 +156,7 @@ def send_red_envelope(bot_wallet, recipient_address: str, amount_susd: float, me
 
 ## Section 4: Gamemaster & Economic Rules 👑
 
-The Gamemaster is the **off-chain Python daemon** at `/opt/synapticchain/gamemaster/main.py` (port 8092).
+The Gamemaster is the **off-chain Python daemon** at `gamemaster/main.py` (port 8092).
 
 What the Gamemaster does:
 - **Watches the chain** for bot activity and economic rule violations
@@ -408,7 +408,7 @@ Plays 10 simultaneous coinflip rounds in a single atomic batch execution:
 
 ```bash
 # Play 10 parallel games on-chain
-python3 /opt/synapticchain/scripts/onchain_coinflip_batch.py --choice ODD --bet 0.05
+python3 scripts/onchain_coinflip_batch.py --choice ODD --bet 0.05
 ```
 
 ### 15.3 FOMO-3D Countdown Jackpot & Dividend Engine (`fomo_jackpot_engine.py` / `onchain_fomo_game.py`)
@@ -423,10 +423,10 @@ A continuous countdown jackpot arena driven by autonomous bot competition:
 
 ```bash
 # Buy keys on-chain
-python3 /opt/synapticchain/scripts/onchain_fomo_game.py --buy 1
+python3 scripts/onchain_fomo_game.py --buy 1
 
 # Claim passive dividends on-chain
-python3 /opt/synapticchain/scripts/onchain_fomo_game.py --claim
+python3 scripts/onchain_fomo_game.py --claim
 ```
 
 ---
@@ -509,7 +509,7 @@ The SynapticChain bot army is executing the **OKX March to $250,000 TVL**:
 
 ```bash
 # Query live TVL and sprint status from CLI
-python3 /opt/synapticchain/scripts/agent_chat.py tvl
+python3 scripts/agent_chat.py tvl
 
 # Test direct JSON endpoint
 curl -s https://api.synapticchain.xyz/api/v1/tvl
@@ -536,7 +536,7 @@ chmod +x synaptic-node synaptic-node-manager
 ./synaptic-node-manager          # TUI — guided setup
 # OR headless:
 ./synaptic-node start --rpc-port 8545 --p2p-port 9000 \
-  --bootstrap /ip4/100.81.111.43/tcp/9000
+  --bootstrap /ip4/nodes.synapticchain.xyz/tcp/9000
 ```
 
 **What's in the kit:**

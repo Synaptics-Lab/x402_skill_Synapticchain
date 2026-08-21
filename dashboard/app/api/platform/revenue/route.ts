@@ -22,9 +22,9 @@ import path from 'node:path'
 
 export const dynamic = 'force-dynamic'
 
-const REVENUE_LOG = '/var/www/metrics/x402-revenue.jsonl'
-const ECOSYSTEM_SNAPSHOT = '/opt/synapticchain/metrics/ecosystem-state.json'
-const ECONOMY_LOG = '/opt/synapticchain/metrics/artemis-live-economy.json'
+const REVENUE_LOG = process.env.REVENUE_LOG_PATH || path.resolve(process.cwd(), 'data/x402-revenue.jsonl')
+const ECOSYSTEM_SNAPSHOT = process.env.ECOSYSTEM_SNAPSHOT_PATH || path.resolve(process.cwd(), 'data/ecosystem-state.json')
+const ECONOMY_LOG = process.env.ECONOMY_LOG_PATH || path.resolve(process.cwd(), 'data/artemis-live-economy.json')
 
 const SYN_DECIMALS = 6
 

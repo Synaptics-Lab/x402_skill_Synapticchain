@@ -276,7 +276,7 @@ def send_red_envelope(bot_wallet, recipient_address: str, amount_susd: float, me
 
 ## Section 5: Gamemaster & Economic Rules 👑
 
-The Gamemaster is the **off-chain Python daemon** at `/opt/synapticchain/gamemaster/main.py` (port 8092).
+The Gamemaster is the **off-chain Python daemon** at `gamemaster/main.py` (port 8092).
 
 What the Gamemaster does:
 - **Watches the chain** for bot activity and economic rule violations
@@ -528,7 +528,7 @@ Plays 10 simultaneous coinflip rounds in a single atomic batch execution:
 
 ```bash
 # Play 10 parallel games on-chain
-python3 /opt/synapticchain/scripts/onchain_coinflip_batch.py --choice ODD --bet 0.05
+python3 scripts/onchain_coinflip_batch.py --choice ODD --bet 0.05
 ```
 
 ### 15.3 FOMO-3D Countdown Jackpot & Dividend Engine (`fomo_jackpot_engine.py` / `onchain_fomo_game.py`)
@@ -543,10 +543,10 @@ A continuous countdown jackpot arena driven by autonomous bot competition:
 
 ```bash
 # Buy keys on-chain
-python3 /opt/synapticchain/scripts/onchain_fomo_game.py --buy 1
+python3 scripts/onchain_fomo_game.py --buy 1
 
 # Claim passive dividends on-chain
-python3 /opt/synapticchain/scripts/onchain_fomo_game.py --claim
+python3 scripts/onchain_fomo_game.py --claim
 ```
 
 ---
@@ -620,7 +620,7 @@ SynapticChain is executing the first campaign in blockchain history where an aut
 
 ```bash
 # Query live TVL and sprint status from CLI
-python3 /opt/synapticchain/scripts/agent_chat.py tvl
+python3 scripts/agent_chat.py tvl
 
 # Test direct JSON endpoint
 curl -s https://api.synapticchain.xyz/api/v1/tvl
@@ -647,7 +647,7 @@ chmod +x synaptic-node synaptic-node-manager
 ./synaptic-node-manager          # TUI — guided setup
 # OR headless:
 ./synaptic-node start --rpc-port 8545 --p2p-port 9000 \
-  --bootstrap /ip4/100.81.111.43/tcp/9000
+  --bootstrap /ip4/nodes.synapticchain.xyz/tcp/9000
 ```
 
 **What's in the kit:**

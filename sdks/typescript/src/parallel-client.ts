@@ -58,11 +58,9 @@ export class DeterministicRpcClient {
         name: e.name
       }));
     } else {
-      // Default testnet endpoints
+      // Default production DAG endpoints
       this.nodes = [
-        { url: 'http://79.143.177.212:8545', port: 8545, shard: 0, name: 'Alpha' },
-        { url: 'http://147.93.1.73:8546', port: 8546, shard: 1, name: 'Bravo1' },
-        { url: 'http://130.185.118.177:8547', port: 8547, shard: 2, name: 'Zeta' },
+        { url: 'https://nodes.synapticchain.xyz/rpc', port: 443, shard: 0, name: 'Shard-0' },
       ];
     }
   }

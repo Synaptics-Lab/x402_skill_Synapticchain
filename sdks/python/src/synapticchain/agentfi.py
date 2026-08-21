@@ -19,10 +19,10 @@ from synapticchain.types import Value
 from synapticchain.wallet import TxOptions
 
 # Default RPC Endpoint
-DEFAULT_RPC = "https://testnet.synapticchain.xyz/rpc/"
+DEFAULT_RPC = "https://nodes.synapticchain.xyz/rpc"
 
-# Production addresses path
-ADDRESSES_PATH = Path("/opt/synapticchain/contracts/production/addresses.json")
+# Standard contracts configuration path (override with SYNAPTIC_CONTRACTS_PATH)
+ADDRESSES_PATH = Path(os.environ.get("SYNAPTIC_CONTRACTS_PATH", "contracts.json"))
 
 
 @dataclass
@@ -58,7 +58,12 @@ class AgentFiClient:
                     return json.load(f)
             except Exception:
                 pass
-        return {}
+        return {
+            "ServiceRegistry": "syn1wqfwkz0jz95fxat9qelz5wu6w6tv86qamzsk3j",
+            "SubscriptionNFT": "syn1wd9wn2vq3q9q3ydmn59e703w28cxpq8h8fz352",
+            "SoulboundIdentity": "syn1eq6mrl9a7pjtujvj3edkjcj6x0crfzar2szax9",
+            "Botcoin": "syn1jzazxgra9lnku60ysj6qqgyjaph9a7r5uwcrcn",
+        }
 
     def get_nonce(self, address: Address) -> int:
         """Fetch current gap-tolerant nonce watermark from chain."""

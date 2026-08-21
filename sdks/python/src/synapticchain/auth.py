@@ -54,7 +54,7 @@ class Web4Auth:
     def login(
         wallet: Optional[AgentWallet] = None,
         handle: str = "@open_claw_agent",
-        rpc_url: str = "http://100.81.111.43:8545",
+        rpc_url: str = "https://nodes.synapticchain.xyz/rpc",
         auto_fund: bool = True
     ) -> Web4AuthSession:
         """
@@ -84,15 +84,18 @@ class Web4Auth:
         bal_wei = client.get_balance(addr_obj)
         bal_syn = (bal_wei / 1e18) if (bal_wei is not None) else 0.0
 
-        if auto_fund and bal_syn < 1.0:
+        if auto_fund and bal_syn < 0.1:
             try:
-                # Faucet Auto-Funding
-                with open('/opt/synapticchain/GENESIS_KEYS.json', 'r') as f:
-                    genesis_data = json.load(f)
-                faucet = Wallet.from_hex(genesis_data['ecosystem_fund']['private_key'], rpc_client=client)
-                faucet.transfer(addr_obj, 10_000_000_000_000_000_000)  # Fund 10 SYN
-                bal_syn += 10.0
-            except Exception as e:
+                import urllib.request
+                req = urllib.request.Request(
+                    "https://nodes.synapticchain.xyz/api/onboard",
+                    data=json.dumps({"agent_address": addr_str}).encode('utf-8'),
+                    headers={"Content-Type": "application/json"}
+                )
+                with urllib.request.urlopen(req, timeout=5) as resp:
+                    if resp.status == 200:
+                        bal_syn += 0.5
+            except Exception:
                 pass  # Graceful fallback if offline
 
         # 5. Generate Web4 Signed Session Token

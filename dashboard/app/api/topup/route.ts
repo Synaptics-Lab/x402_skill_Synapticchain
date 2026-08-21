@@ -15,7 +15,7 @@ import crypto from 'node:crypto'
 
 export const dynamic = 'force-dynamic'
 
-const TOPUP_STORE = path.resolve('/opt/synapticchain/x402-marketplace/.topup-payments.json')
+const TOPUP_STORE = path.resolve(process.env.TOPUP_STORE_PATH || './.topup-payments.json')
 // TODO: Replace with live on-chain oracle feed (e.g. FiatPriceOracleV1).
 // For now, the SYN floor is $0.75 USD per SYN.
 const USD_PER_SYN = 0.75

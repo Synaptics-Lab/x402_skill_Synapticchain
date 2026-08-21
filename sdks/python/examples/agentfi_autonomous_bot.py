@@ -9,14 +9,15 @@ Demonstrates:
 - Cross-currency ODL swaps
 """
 
+import os
 import sys
 import time
 
 # Add Python SDK to path
-sys.path.insert(0, '/opt/synapticchain/sdks/python/src')
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from synapticchain import AgentFiClient, AgentWallet
 
-RPC_URL = "https://testnet.synapticchain.xyz/rpc/"
+RPC_URL = "https://nodes.synapticchain.xyz/rpc"
 
 def main():
     print("🤖 AgentFi Autonomous Bot Initializing...")
