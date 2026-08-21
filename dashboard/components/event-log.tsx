@@ -51,7 +51,7 @@ function parseChainTx(tx: any, headBlock: number): RealEvent {
   let amountSyn = '0.0000 SYN'
   if (tx.amount) {
     try {
-      const val = Number(BigInt(tx.amount)) / 1e18
+      const val = Number(BigInt(tx.amount)) / 1e8
       amountSyn = `${val >= 0.0001 ? val.toFixed(4) : val.toPrecision(3)} SYN`
     } catch {
       amountSyn = `${tx.amount} SYN`

@@ -10,9 +10,10 @@ import type { Endpoint } from '@/lib/chain/types'
 /* ------------------------------------------------------------------ identity */
 
 function IdentityGate() {
-  const { wallet, state, liveIdentity, send, notify, connect } = useWallet()
+  const { wallet, state, liveIdentity, liveBalance, claimStarterGas, send, notify, connect } = useWallet()
   const [handle, setHandle] = useState('')
   const [busy, setBusy] = useState(false)
+  const [claiming, setClaiming] = useState(false)
   
   // Auto-populate identity if present in state, chain read, or active session wallet
   const identity = state?.identity ?? (wallet ? {
@@ -24,15 +25,24 @@ function IdentityGate() {
     mintedAt: Date.now(),
   } : null)
 
+  const synBalance = liveBalance.value ?? state?.account?.syn ?? 0
+
   if (!wallet) {
     return (
       <Panel title="Step 01 — SoulboundIdentity">
         <p className="mb-4 max-w-prose text-sm leading-relaxed text-muted-foreground">
-          Connect a Web4 wallet to mint the non-transferable identity that carries your provider reputation.
+          Connect your Web4 wallet or 1-click onboard as an autonomous provider agent to carry reputation and receive revenue on L1.
         </p>
-        <Btn variant="accent" onClick={() => connect()}>
-          Connect Web4
-        </Btn>
+        <div className="flex flex-wrap items-center gap-3">
+          <Btn variant="accent" onClick={() => connect('burner')}>
+            ⚡ 1-Click Instant Onboard (Free Gas)
+          </Btn>
+          <a href="https://wallet.synapticchain.xyz/?return_to=https://api.synapticchain.xyz/provider">
+            <Btn variant="quiet">
+              Launch Matrix Wallet
+            </Btn>
+          </a>
+        </div>
       </Panel>
     )
   }
@@ -51,9 +61,26 @@ function IdentityGate() {
               <Mono className="text-muted-foreground">{short(wallet.address, 10, 6)}</Mono>
             </div>
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <Stat label="Reputation" value={identity.reputation} />
             <Stat label="Attestations" value={identity.attestations} />
+            {synBalance < 0.05 && (
+              <Btn
+                variant="accent"
+                size="sm"
+                disabled={claiming}
+                onClick={async () => {
+                  setClaiming(true)
+                  try {
+                    await claimStarterGas()
+                  } finally {
+                    setClaiming(false)
+                  }
+                }}
+              >
+                {claiming ? 'Claiming…' : '⚡ Claim Free Gas (0.5 SYN)'}
+              </Btn>
+            )}
           </div>
         </div>
       </Panel>
@@ -102,7 +129,7 @@ function IdentityGate() {
 const CATEGORIES = ['Inference', 'Markets', 'Geospatial', 'Identity', 'Storage', 'Compute']
 
 function RegisterForm({ onRegistered }: { onRegistered: (e: Endpoint) => void }) {
-  const { wallet, send, notify } = useWallet()
+  const { wallet, connect, send, notify } = useWallet()
   const [f, setF] = useState({
     name: '',
     upstream: 'https://',
@@ -134,7 +161,7 @@ function RegisterForm({ onRegistered }: { onRegistered: (e: Endpoint) => void })
       onRegistered(r.endpoint)
       setF((p) => ({ ...p, name: '', description: '', upstream: 'https://', launchToken: false, symbol: '' }))
     } catch (err) {
-      notify({ kind: 'err', title: 'Registration reverted', body: (err as Error).message })
+      notify({ kind: 'err', title: 'Registration note', body: (err as Error).message })
     } finally {
       setBusy(false)
     }
@@ -206,10 +233,10 @@ function RegisterForm({ onRegistered }: { onRegistered: (e: Endpoint) => void })
             onChange={(e) => set('launchToken', e.target.checked)}
             className="size-4 appearance-none border border-foreground checked:bg-accent"
           />
-          <span className="label">Launch BondingCurveToken</span>
+          <span className="label">Launch SRC20 / BondingCurve Token on L1</span>
         </label>
         {f.launchToken && (
-          <Field label="Symbol">
+          <Field label="Symbol" hint="1,000,000 initial supply minted to your address">
             <input
               value={f.symbol}
               onChange={(e) => set('symbol', e.target.value.toUpperCase())}
@@ -224,7 +251,11 @@ function RegisterForm({ onRegistered }: { onRegistered: (e: Endpoint) => void })
         <Btn variant="accent" onClick={submit} disabled={busy || blocked || !f.name}>
           {busy ? 'Broadcasting on L1…' : 'register_endpoint()'}
         </Btn>
-        {blocked && <Mono className="text-accent">connect wallet first</Mono>}
+        {blocked && (
+          <Btn variant="quiet" size="sm" onClick={() => connect('burner')}>
+            ⚡ Connect & Auto-Onboard First
+          </Btn>
+        )}
       </div>
 
       {receipt && (

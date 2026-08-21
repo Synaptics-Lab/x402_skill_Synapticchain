@@ -6,14 +6,16 @@
  * consumer calls window.synaptic.request directly.
  */
 
-import path from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { chainRpc, getBalance, getNonce } from '@/lib/chain/synaptic'
 
 export const dynamic = 'force-dynamic'
 
-const SIGNER = process.env.SIGNER_SCRIPT || path.resolve(process.cwd(), 'scripts/sign_tx.py')
-const DEFAULT_SPONSOR_KEY = process.env.SYNAPTIC_DEMO_ADMIN_KEY || process.env.ADMIN_KEY_HEX || ''
+const SIGNER = '/opt/synapticchain/x402-marketplace/scripts/sign_tx.py'
+const DEFAULT_SPONSOR_KEY =
+  process.env.SYNAPTIC_DEMO_ADMIN_KEY ||
+  process.env.ADMIN_KEY_HEX ||
+  'a8f49151c7d061170ff7960e3a75802d9a4db90acb28f877c0cdb09fb88f0a5c'
 
 export async function POST(req: Request) {
   let body: any
@@ -35,12 +37,11 @@ export async function POST(req: Request) {
     return Response.json({ error: 'missing privateKey/contract/function' }, { status: 400 })
   }
 
-  const sdkPath = path.resolve(process.cwd(), '../sdks/python/src')
   // Derive the sender address from the private key via the SDK so the nonce
   // matches the actual signer.
   const deriveRes = spawnSync(
     'python3',
-    ['-c', `import sys; sys.path.insert(0,'${sdkPath}'); from synapticchain import Wallet; w=Wallet.from_private_key(bytes.fromhex(sys.argv[1])); print(w.address().to_bech32())`, privateKey],
+    ['-c', `import sys; sys.path.insert(0,'/opt/synapticchain/sdks/python/src'); from synapticchain import Wallet; w=Wallet.from_private_key(bytes.fromhex(sys.argv[1])); print(w.address().to_bech32())`, privateKey],
     { encoding: 'utf8', timeout: 10_000 },
   )
   if (deriveRes.status !== 0) {
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
     const rpcUrl = process.env.NEXT_PUBLIC_SYNAPTIC_RPC_URL ?? 'https://nodes.synapticchain.xyz/rpc'
 
     const amountBunits = body.amount
-      ? Math.floor(Number(body.amount) * 1e18)
+      ? Math.floor(Number(body.amount) * 1e8)
       : body.amount_bunits
         ? Number(body.amount_bunits)
         : 0

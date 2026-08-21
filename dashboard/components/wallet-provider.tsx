@@ -61,6 +61,8 @@ const WalletCtx = createContext<
       liveIdentity: { hasIdentity: boolean | null; reputation: number | null; error: string | null; isLoading: boolean }
       /** Live x402 gateway health. */
       liveHealth: { ws: string; lastBlock: number; endpoints: Array<{ id: string; route: string; price: number }>; error: string | null; isLoading: boolean }
+      /** Claim 0.5 SYN starter gas + sUSD + $BOTCOIN from onboard faucet */
+      claimStarterGas: () => Promise<void>
     }
   | null
 >(null)
@@ -374,6 +376,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
               onboarded: true,
             }),
           }).catch((err) => console.warn('[connect] session cookie sync failed:', err))
+
+          // Auto-fund starter gas on Layer-1 via onboarding if burner or zero balance
+          fetch('/api/onboard', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ agent_address: next.address, source: 'x402_auto_connect' }),
+          }).catch(() => {})
         }
         setWallet(next)
         await rpc('/api/rpc', 'syn_getState', { address: next.address })
@@ -392,7 +401,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
               : 'Session wallet created'
         const body =
           next.connector === 'burner'
-            ? 'window.synaptic not detected — a funded session wallet was issued for this tab.'
+            ? 'Attested session wallet ready with starter gas on L1.'
             : next.address
         notify({ kind: 'ok', title, body })
       } catch (err) {
@@ -403,6 +412,32 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     },
     [mutate, mutateBalance, mutateBotcoin, mutateSUSD, mutateIdentity, mutateHealth, notify],
   )
+
+  const claimStarterGas = useCallback(async () => {
+    if (!wallet?.address) throw new Error('wallet not connected')
+    try {
+      const res = await fetch('/api/onboard', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ agent_address: wallet.address, source: 'x402_provider_claim' }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        notify({ kind: 'ok', title: 'Starter Gas Claimed', body: '0.5 SYN + 0.5 sUSD + 1.0 $BOTCOIN credited on L1.' })
+        setTimeout(() => {
+          mutateBalance()
+          mutateBotcoin()
+          mutateSUSD()
+          mutateIdentity()
+          mutate()
+        }, 1200)
+      } else {
+        notify({ kind: 'err', title: 'Claim notice', body: data?.error || 'Airdrop rate limit or already funded' })
+      }
+    } catch (err: any) {
+      notify({ kind: 'err', title: 'Claim error', body: err?.message || 'Failed to reach onboard service' })
+    }
+  }, [wallet?.address, notify, mutateBalance, mutateBotcoin, mutateSUSD, mutateIdentity, mutate])
 
   const disconnect = useCallback(() => {
     setWallet(null)
@@ -438,7 +473,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }
 
   const liveBalance = {
-    value: balanceData?.ok ? Number(balanceData.balance) / 1e18 : null,
+    value: balanceData?.ok ? Number(balanceData.balance) / 1e8 : null,
     error: balanceData?.ok === false ? balanceData.error : balanceError?.message ?? null,
     isLoading: balanceLoading,
   }
@@ -495,6 +530,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       liveSUSD,
       liveIdentity,
       liveHealth,
+      claimStarterGas,
     }),
     [
       wallet,
@@ -516,6 +552,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       liveSUSD,
       liveIdentity,
       liveHealth,
+      claimStarterGas,
     ],
   )
 
