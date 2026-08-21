@@ -1,0 +1,179 @@
+{
+  "name": "@synapticchain/sdk",
+  "version": "0.1.0",
+  "description": "SynapticChain SDK for TypeScript/JavaScript - wallet integration and dApp development",
+  "author": "SynapticChain Team",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "browser": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    },
+    "./crypto": {
+      "import": {
+        "types": "./dist/types/crypto/index.d.ts",
+        "default": "./dist/esm/crypto/index.js"
+      },
+      "require": {
+        "types": "./dist/types/crypto/index.d.ts",
+        "default": "./dist/cjs/crypto/index.js"
+      }
+    },
+    "./address": {
+      "import": {
+        "types": "./dist/types/address/index.d.ts",
+        "default": "./dist/esm/address/index.js"
+      },
+      "require": {
+        "types": "./dist/types/address/index.d.ts",
+        "default": "./dist/cjs/address/index.js"
+      }
+    },
+    "./types": {
+      "import": {
+        "types": "./dist/types/types/index.d.ts",
+        "default": "./dist/esm/types/index.js"
+      },
+      "require": {
+        "types": "./dist/types/types/index.d.ts",
+        "default": "./dist/cjs/types/index.js"
+      }
+    },
+    "./serialization": {
+      "import": {
+        "types": "./dist/types/serialization/index.d.ts",
+        "default": "./dist/esm/serialization/index.js"
+      },
+      "require": {
+        "types": "./dist/types/serialization/index.d.ts",
+        "default": "./dist/cjs/serialization/index.js"
+      }
+    },
+    "./rpc": {
+      "import": {
+        "types": "./dist/types/rpc/index.d.ts",
+        "default": "./dist/esm/rpc/index.js"
+      },
+      "require": {
+        "types": "./dist/types/rpc/index.d.ts",
+        "default": "./dist/cjs/rpc/index.js"
+      }
+    },
+    "./wallet": {
+      "import": {
+        "types": "./dist/types/wallet/index.d.ts",
+        "default": "./dist/esm/wallet/index.js"
+      },
+      "require": {
+        "types": "./dist/types/wallet/index.d.ts",
+        "default": "./dist/cjs/wallet/index.js"
+      }
+    },
+    "./contract": {
+      "import": {
+        "types": "./dist/types/contract/index.d.ts",
+        "default": "./dist/esm/contract/index.js"
+      },
+      "require": {
+        "types": "./dist/types/contract/index.d.ts",
+        "default": "./dist/cjs/contract/index.js"
+      }
+    },
+    "./utils": {
+      "import": {
+        "types": "./dist/types/utils/index.d.ts",
+        "default": "./dist/esm/utils/index.js"
+      },
+      "require": {
+        "types": "./dist/types/utils/index.d.ts",
+        "default": "./dist/cjs/utils/index.js"
+      }
+    },
+    "./errors": {
+      "import": {
+        "types": "./dist/types/errors/index.d.ts",
+        "default": "./dist/esm/errors/index.js"
+      },
+      "require": {
+        "types": "./dist/types/errors/index.d.ts",
+        "default": "./dist/cjs/errors/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types && npm run build:cjs-package",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:types": "tsc -p tsconfig.types.json",
+    "build:cjs-package": "cp src/cjs-package.json dist/cjs/package.json",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "synapticchain",
+    "blockchain",
+    "sdk",
+    "wallet",
+    "dapp",
+    "web3",
+    "ed25519",
+    "crypto",
+    "typescript",
+    "javascript",
+    "layer1",
+    "bech32m",
+    "borsh"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/synapticchain/synapticchain-sdk",
+    "directory": "sdks/typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/synapticchain/synapticchain-sdk/issues"
+  },
+  "homepage": "https://github.com/synapticchain/synapticchain-sdk#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^2.1.0",
+    "@noble/hashes": "^1.4.0",
+    "bech32": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "fast-check": "^3.15.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@synapse/x402-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "x402 payment-required proxy for SynapticChain",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js --config ./config.yaml",
+    "dev": "node --watch server.js --config ./config.yaml",
+    "docker:build": "docker build -t synapse/x402-gateway:1.0 .",
+    "docker:run": "docker run --rm -p 8402:8402 -v $(pwd)/config.yaml:/app/config.yaml synapse/x402-gateway:1.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "js-yaml": "^4.1.0",
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,8 @@
+# MANIFEST.in - Additional files to include in source distribution
+# Note: With hatchling, this file is optional as pyproject.toml controls includes
+
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include src/synapticchain *.py py.typed
+recursive-include tests *.py

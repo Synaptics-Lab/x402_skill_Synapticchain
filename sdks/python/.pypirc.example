@@ -1,0 +1,17 @@
+# Example .pypirc configuration file
+# Copy this to ~/.pypirc and add your API tokens
+# Set permissions: chmod 600 ~/.pypirc
+
+[distutils]
+index-servers =
+    pypi
+    testpypi
+
+[pypi]
+username = __token__
+password = pypi-YOUR-PYPI-API-TOKEN-HERE
+
+[testpypi]
+repository = https://test.pypi.org/legacy/
+username = __token__
+password = pypi-YOUR-TEST-PYPI-API-TOKEN-HERE

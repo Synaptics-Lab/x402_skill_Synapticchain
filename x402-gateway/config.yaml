@@ -1,0 +1,81 @@
+# SynapticChain x402 API Gateway Configuration
+server:
+  port: 8402
+  bodyLimit: 2mb
+
+chain:
+  name: SynapticChain
+  chainId: synaptic-mainnet
+  currency: SYN
+  rpcUrl: https://nodes.synapticchain.xyz/rpc
+  wsUrl: wss://nodes.synapticchain.xyz/ws
+  finalityMs: 500
+  pollFallback: true
+
+contracts:
+  ServiceRegistry: 'syn1wqfwkz0jz95fxat9qelz5wu6w6tv86qamzsk3j'
+  SubscriptionNFT: 'syn1wd9wn2vq3q9q3ydmn59e703w28cxpq8h8fz352'
+  SoulboundIdentity: 'syn1eq6mrl9a7pjtujvj3edkjcj6x0crfzar2szax9'
+
+invoiceTtlSeconds: 300
+
+endpoints:
+  - id: '0x3e1d5c9a8b7f2e4a'
+    numericId: 1
+    route: /orbital
+    upstream: http://127.0.0.1:3006/api/upstream/orbital-debris
+    price: 0.004
+    subscription: true
+    forwardHeaders: [accept, accept-language]
+    stripPrefix: true
+    timeoutMs: 15000
+
+  - id: '0x8f31a4c7d9021be5'
+    numericId: 2
+    route: /sentiment
+    upstream: http://127.0.0.1:3006/api/upstream/sentiment-tape
+    price: 0.012
+    subscription: true
+    forwardHeaders: [accept, accept-language, content-type]
+    stripPrefix: true
+    timeoutMs: 15000
+
+  - id: '0x4b02ee91c7735fa1'
+    numericId: 3
+    route: /vectors
+    upstream: http://127.0.0.1:3006/api/upstream/vector-recall
+    price: 0.0008
+    subscription: false
+    forwardHeaders: [accept, accept-language, content-type]
+    stripPrefix: true
+    timeoutMs: 15000
+
+  - id: '0x9c4a2b8d1e5f7a3e'
+    numericId: 4
+    route: /poh
+    upstream: http://127.0.0.1:3006/api/upstream/proof-of-human
+    price: 0.05
+    subscription: false
+    forwardHeaders: [accept, accept-language]
+    stripPrefix: true
+    timeoutMs: 15000
+
+  - id: '0x7f2e4a3e1d5c9a8b'
+    numericId: 5
+    route: /reentry
+    upstream: http://127.0.0.1:3006/api/upstream/reentry-window
+    price: 0.09
+    subscription: true
+    forwardHeaders: [accept, accept-language]
+    stripPrefix: true
+    timeoutMs: 15000
+
+  - id: '0x1e5f7a3e9c4a2b8d'
+    numericId: 6
+    route: /quote
+    upstream: http://127.0.0.1:3006/api/upstream/liquidity-quote
+    price: 0.006
+    subscription: true
+    forwardHeaders: [accept, accept-language, content-type]
+    stripPrefix: true
+    timeoutMs: 15000

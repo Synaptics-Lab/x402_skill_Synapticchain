@@ -1,0 +1,26 @@
+{
+  "name": "synapse-x402-debut-suite",
+  "version": "1.0.0",
+  "description": "Synapse x402 & SynapticChain L1 Developer Suite — Python/TypeScript SDKs, x402 Marketplace Dashboard, and Autonomous Agent Onboarding",
+  "private": true,
+  "scripts": {
+    "dashboard:dev": "npm --prefix dashboard run dev",
+    "dashboard:build": "npm --prefix dashboard run build",
+    "dashboard:start": "npm --prefix dashboard start",
+    "sdk:ts:build": "npm --prefix sdks/typescript run build",
+    "sdk:ts:test": "npm --prefix sdks/typescript test",
+    "sdk:py:test": "pytest sdks/python/tests",
+    "gateway:start": "node x402-gateway/server.js"
+  },
+  "keywords": [
+    "synapticchain",
+    "x402",
+    "autonomous-agents",
+    "dag",
+    "parallel-execution",
+    "sdk",
+    "machine-to-machine-commerce"
+  ],
+  "author": "SynapticChain Core Contributors",
+  "license": "Apache-2.0"
+}
