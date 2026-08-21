@@ -49,7 +49,7 @@ export function SiteFooter() {
         </Mono>
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com/Synaptics-Lab/Synapse_x402"
+            href="https://github.com/Synaptics-Lab/x402_skill_Synapticchain"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 font-mono text-xs text-background/80 hover:text-background transition-colors underline decoration-dotted"

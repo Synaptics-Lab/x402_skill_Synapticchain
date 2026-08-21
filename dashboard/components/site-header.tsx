@@ -64,7 +64,7 @@ export function SiteHeader() {
             )
           })}
           <a
-            href="https://github.com/Synaptics-Lab/Synapse_x402"
+            href="https://github.com/Synaptics-Lab/x402_skill_Synapticchain"
             target="_blank"
             rel="noopener noreferrer"
             className="label flex items-center gap-1.5 border-r border-foreground px-3 transition-colors hover:bg-secondary hover:text-foreground"
@@ -175,7 +175,7 @@ export function SiteHeader() {
               )
             })}
             <a
-              href="https://github.com/Synaptics-Lab/Synapse_x402"
+              href="https://github.com/Synaptics-Lab/x402_skill_Synapticchain"
               target="_blank"
               rel="noopener noreferrer"
               className="label flex items-center gap-2 border-b border-foreground px-4 py-3 transition-colors hover:bg-secondary"
