@@ -286,9 +286,10 @@ Navigate to [http://localhost:3000](http://localhost:3000) to access the Consume
 ├── dashboard/                         # Next.js 16 x402 Marketplace & Developer Console
 ├── x402-gateway/                      # Standalone HTTP 402 Reverse Proxy Middleware
 ├── docs/                              # Architecture, x402 Spec & API Reference
-│   ├── DAG_ARCHITECTURE.md
-│   ├── X402_SPECIFICATION.md
-│   ├── API_REFERENCE.md
+│   ├── RUST_SUBSYSTEM.md              # 100% Rust 12-Crate Architecture & Lock-Free Design
+│   ├── DAG_ARCHITECTURE.md            # DAG-Primary Multi-Proposer Consensus
+│   ├── X402_SPECIFICATION.md          # Machine-to-Machine HTTP 402 Standard
+│   ├── API_REFERENCE.md               # RPC & REST Endpoints
 │   └── QUICKSTART.md
 ├── SKILL.md                           # Master OpenClaw Agent Specification (v2.8.0)
 └── package.json                       # Workspace scripts
