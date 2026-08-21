@@ -1,0 +1,19 @@
+[Unit]
+Description=SynapticChain Observer Node Service
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/synaptic-node
+ExecStart=/opt/synaptic-node/synaptic-node start --rpc-port 8545 --p2p-port 9000 --data-dir /opt/synaptic-node/data/observer --bootstrap /ip4/100.81.111.43/tcp/9000/p2p/12D3KooWAlphaSeedNode
+Restart=always
+RestartSec=5
+LimitNOFILE=65535
+Environment=RUST_LOG=info,synaptic_consensus=info,synaptic_p2p=warn
+Environment=SYN_CONFIG_RPC_PORT=8545
+Environment=SYN_CONFIG_P2P_PORT=9000
+
+[Install]
+WantedBy=multi-user.target

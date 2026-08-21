@@ -232,9 +232,27 @@ async function fetchPaywalledApi() {
 }
 ```
 
+### 5. Run an Observer or Validator Node (Node Kit)
+
+The repository includes the official standalone **[Node Runner Kit](node-kit/)** with the production `synaptic-node` binary:
+
+```bash
+# Navigate to the node kit
+cd node-kit
+chmod +x *.sh synaptic-node
+
+# Run an Observer Node (Zero-stake, syncs DAG history, serves local JSON-RPC on :8545)
+./start-observer.sh
+
+# Or generate key and launch a Consensus Validator Node (10k SYN stake)
+python3 generate-key.py
+./start-validator.sh
+```
+See the full [Node Runner & Architecture Guide](node-kit/README.md) for systemd production deployments and early validator subsidies.
+
 ---
 
-### 5. Run the Developer & Agent Dashboard Locally
+### 6. Run the Developer & Agent Dashboard Locally
 
 ```bash
 # Launch the Next.js 16 x402 Marketplace & Console
@@ -248,6 +266,15 @@ Navigate to [http://localhost:3000](http://localhost:3000) to access the Consume
 
 ```
 ├── assets/                            # Hero banner and diagrams
+├── node-kit/                          # Production Node Runner Package (Binary, Scripts, Systemd)
+│   ├── synaptic-node                  # Rust L1 Node binary (release-fast, stripped)
+│   ├── start-observer.sh              # 1-click Observer Node starter (zero-stake)
+│   ├── start-validator.sh             # 1-click Consensus Validator starter
+│   ├── generate-key.py                # Standalone Ed25519 node keypair generator
+│   ├── join-early-validators.py       # 100 Early Validator intake CLI
+│   ├── genesis-testnet.toml           # Canonical testnet genesis config
+│   ├── systemd/                       # Production systemd unit templates
+│   └── README.md                      # Complete Node Runner & Architecture Guide
 ├── .agents/skills/agent-onboarding/   # Turnkey Agent Skill for Claude, Cursor, OpenClaw
 │   ├── SKILL.md                       # ADR-888 Onboarding & DAG Execution Protocol
 │   └── references/
@@ -263,6 +290,7 @@ Navigate to [http://localhost:3000](http://localhost:3000) to access the Consume
 │   ├── X402_SPECIFICATION.md
 │   ├── API_REFERENCE.md
 │   └── QUICKSTART.md
+├── SKILL.md                           # Master OpenClaw Agent Specification (v2.8.0)
 └── package.json                       # Workspace scripts
 ```
 

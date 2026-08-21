@@ -1,0 +1,85 @@
+# SynapticChain Mainnet Genesis Configuration
+# DEPRECATED ALIAS: this file is kept only for backward compatibility with
+# running African nodes that load genesis from "genesis-testnet.toml".  It is
+# identical to config/genesis-mainnet.toml (the canonical mainnet genesis).
+# New deployments and documentation should use genesis-mainnet.toml.
+# Canonical tokenomics model (reconciled from docs/TOKENOMICS_V2.md
+# and SYNAPTIC_PARTNERSHIP_PROPOSAL.md).
+#
+# Total Supply: 470,000,000 SYN (470,000,000 * 10^18 bunits)
+# Allocation sums to exactly 100% of total supply (470M SYN).
+# Minimum Validator Stake: 10,000 SYN.
+
+[network]
+network = "mainnet"
+chain_id = 1
+genesis_timestamp = 1786847148
+
+[ecosystem_fund]
+address = "syn1c2p5829xmy46muue0d3yrt3a3w7myn23x8l3t5"
+percentage = 29
+vesting_cliff_days = 0
+vesting_duration_days = 1460
+vesting_type = "linear"
+
+[community_rewards]
+address = "syn166j87jgrsc9yuhxu44uum0x427dvc2t6vuefed"
+percentage = 20
+vesting_cliff_days = 0
+vesting_duration_days = 3650
+vesting_type = "linear"
+
+[team_advisors]
+address = "syn1584k26xxyx9gtcmeh9g2yvfmfz6reqvlmyd7e5"
+percentage = 15
+vesting_cliff_days = 365
+vesting_duration_days = 1095
+vesting_type = "linear"
+
+[treasury]
+address = "syn1t9hp790tpp450jh0sd8lyd3znqccycal4m2z0u"
+percentage = 15
+vesting_cliff_days = 0
+vesting_duration_days = 0
+vesting_type = "none"
+
+[early_validators]
+address = "syn13tm3gnth99cvz6svtgwu3wnv9px35wf5epndqc"
+percentage = 10
+vesting_cliff_days = 180
+vesting_duration_days = 730
+vesting_type = "linear"
+
+[initial_liquidity]
+address = "syn1ndqyluc958678ka0na5ye4he4t2764qr0euscz"
+percentage = 10
+vesting_cliff_days = 0
+vesting_duration_days = 0
+vesting_type = "none"
+
+[strategic_partner_synaptic]
+address = "syn13jsd59t48e0t73tu72nac80ydfdrdd7tgudpry"
+percentage = 1
+vesting_cliff_days = 180
+vesting_duration_days = 730
+vesting_type = "linear"
+
+[gas]
+base_operation_overhead = 1_000
+write_cost_per_byte = 100
+read_cost_per_byte = 10
+delete_refund_per_byte = 50
+free_storage_allowance_bytes = 1_024
+rent_per_byte_per_block = 1_000
+minimum_deposit_wei = 1_000_000_000_000_000
+simple_transfer_gas = 21_000
+contract_deployment_base_gas = 32_000
+contract_deployment_per_byte_gas = 200
+state_read_gas = 800
+state_write_gas = 20_000
+
+# Validator stakes for African testnet 3n1s mesh (100,000 SYN each in wei)
+[extra_allocations]
+syn1vpt4qv9cernzv43vx56yxwd7umydk5mzucnc24 = "100000000000000000000000"
+syn16ywaqmdkj22shv65867pz8lj5h4v38htxup8ms = "100000000000000000000000"
+syn138fw2u0fnm3cvzlfz4jwpa68vqrxx4gdyg0yhs = "100000000000000000000000"
